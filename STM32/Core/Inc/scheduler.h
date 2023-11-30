@@ -9,7 +9,7 @@
 #define INC_SCHEDULER_H_
 
 #include <stdint.h>
-extern int TICK;
+extern uint8_t TICK;
 typedef struct {
 	// Pointer to the Task (mus be a 'void(void)' function)
 	void (* pTask)(void);
@@ -23,11 +23,8 @@ typedef struct {
 	uint32_t TaskID;
 } sTask;
 
-#define SCH_MAX_TASKS	40
+#define SCH_MAX_TASKS	10
 #define NO_TASK_ID		0
-
-// An array to store tasks's information
-sTask SCH_tasks_G[SCH_MAX_TASKS];
 
 // Prototype of functions needed to operate a scheduler
 

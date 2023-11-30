@@ -79,7 +79,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  SCH_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -95,7 +95,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
-  SCH_Add_Task(blinky_led, 1000, 5000);
+  SCH_Add_Task(blinky_led, 1000, 1000);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
