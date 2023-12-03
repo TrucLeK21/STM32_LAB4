@@ -56,10 +56,29 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void blinky_led()
+void blinky_blue()
+{
+	HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+}
+
+void blinky_yellow()
+{
+	HAL_GPIO_TogglePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin);
+}
+
+void blinky_green()
+{
+	HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+}
+
+void blinky_red()
 {
 	HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+}
 
+void one_shot_orange()
+{
+	HAL_GPIO_TogglePin(LED_ORANGE_GPIO_Port, LED_ORANGE_Pin);
 }
 /* USER CODE END 0 */
 
@@ -95,14 +114,20 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
-  SCH_Add_Task(blinky_led, 1000, 1000);
+
+  SCH_Add_Task(blinky_red, 1000, 1000);
+  SCH_Add_Task(blinky_green, 1000, 2000);
+  SCH_Add_Task(blinky_blue, 1000, 3000);
+  SCH_Add_Task(blinky_yellow, 1000, 4000);
+  // oneshot
+  SCH_Add_Task(one_shot_orange, 5000, 0);
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
 	  SCH_Dispatch_Tasks();
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -201,14 +226,17 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED_BLUE_Pin|LED_YELLOW_Pin|LED_GREEN_Pin|LED_RED_Pin
+                          |LED_ORANGE_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : LED_RED_Pin */
-  GPIO_InitStruct.Pin = LED_RED_Pin;
+  /*Configure GPIO pins : LED_BLUE_Pin LED_YELLOW_Pin LED_GREEN_Pin LED_RED_Pin
+                           LED_ORANGE_Pin */
+  GPIO_InitStruct.Pin = LED_BLUE_Pin|LED_YELLOW_Pin|LED_GREEN_Pin|LED_RED_Pin
+                          |LED_ORANGE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_RED_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 
