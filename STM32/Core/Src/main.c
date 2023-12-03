@@ -56,6 +56,11 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void blinky_white()
+{
+	HAL_GPIO_TogglePin(LED_WHITE_GPIO_Port, LED_WHITE_Pin);
+}
 void blinky_blue()
 {
 	HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
@@ -115,13 +120,14 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
-  SCH_Add_Task(blinky_red, 1000, 1000);
+  SCH_Add_Task(blinky_white, 1000, 500);
+  SCH_Add_Task(blinky_blue, 1000, 1000);
+  SCH_Add_Task(blinky_yellow, 1000, 1500);
   SCH_Add_Task(blinky_green, 1000, 2000);
-  SCH_Add_Task(blinky_blue, 1000, 3000);
-  SCH_Add_Task(blinky_yellow, 1000, 4000);
-  // oneshot
-  SCH_Add_Task(one_shot_orange, 5000, 0);
+  SCH_Add_Task(blinky_red, 1000, 2500);
 
+  // one shot task
+  SCH_Add_Task(one_shot_orange, 5000, 0);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -226,13 +232,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_BLUE_Pin|LED_YELLOW_Pin|LED_GREEN_Pin|LED_RED_Pin
-                          |LED_ORANGE_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED_WHITE_Pin|LED_BLUE_Pin|LED_YELLOW_Pin|LED_GREEN_Pin
+                          |LED_RED_Pin|LED_ORANGE_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_BLUE_Pin LED_YELLOW_Pin LED_GREEN_Pin LED_RED_Pin
-                           LED_ORANGE_Pin */
-  GPIO_InitStruct.Pin = LED_BLUE_Pin|LED_YELLOW_Pin|LED_GREEN_Pin|LED_RED_Pin
-                          |LED_ORANGE_Pin;
+  /*Configure GPIO pins : LED_WHITE_Pin LED_BLUE_Pin LED_YELLOW_Pin LED_GREEN_Pin
+                           LED_RED_Pin LED_ORANGE_Pin */
+  GPIO_InitStruct.Pin = LED_WHITE_Pin|LED_BLUE_Pin|LED_YELLOW_Pin|LED_GREEN_Pin
+                          |LED_RED_Pin|LED_ORANGE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

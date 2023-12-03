@@ -78,6 +78,7 @@ void SCH_Add_Task(void (* pFunction)(), uint32_t DELAY_IN_MS, uint32_t PERIOD)
 
 			return;
 		} else {
+			// check if there is empty slot for the new task that have Delay > sumDelay
 			if(SCH_tasks_G[newTaskIndex].pTask == 0x0000)
 			{
 				SCH_tasks_G[newTaskIndex].pTask = pFunction;
@@ -137,7 +138,6 @@ void SCH_Delete_Tasks(uint8_t TASK_INDEX)
 				SCH_tasks_G[j].pTask = SCH_tasks_G[j+1].pTask;
 				SCH_tasks_G[j].Delay = SCH_tasks_G[j+1].Delay;
 				SCH_tasks_G[j].Period = SCH_tasks_G[j+1].Period;
-//				SCH_tasks_G[i].RunMe = SCH_tasks_G[i+1].RunMe;
 			}
 
 			SCH_tasks_G[j].pTask = 0x0000;
@@ -148,5 +148,4 @@ void SCH_Delete_Tasks(uint8_t TASK_INDEX)
 			return;
 		}
 	}
-
 }
